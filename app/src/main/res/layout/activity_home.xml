@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeActivity"
+    android:background="@color/pp_grey_background">
+
+    <RelativeLayout
+        android:id="@+id/hero_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hero_image_base_height">
+
+        <ImageView
+            android:id="@+id/hero_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hero_image_base_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pennypot_hero"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_name_text_size"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/spacer_large"
+            android:layout_marginBottom="@dimen/spacer_large" />
+     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/goals_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/pp_grey_light"
+            android:dividerHeight="1dp"></ListView>
+    </LinearLayout>
+
+</LinearLayout>

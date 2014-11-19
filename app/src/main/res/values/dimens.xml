@@ -1,0 +1,33 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="text_size_regular">14sp</dimen>
+
+    <dimen name="hero_image_base_height">225dp</dimen>
+    <dimen name="app_name_text_size">26sp</dimen>
+
+    <!-- General purpose spacing dimensions -->
+    <dimen name="spacer_xsmall">3dp</dimen>
+    <dimen name="spacer_small">5dp</dimen>
+    <dimen name="spacer_medium">10dp</dimen>
+    <dimen name="spacer_large">14dp</dimen>
+    <dimen name="spacer_xlarge">20dp</dimen>
+    <dimen name="spacer_xxlarge">24dp</dimen>
+    <dimen name="spacer_xxxlarge">30dp</dimen>
+
+    <!-- General purpose spacing dimensions -->
+    <dimen name="negative_spacer_xsmall">-3dp</dimen>
+    <dimen name="negative_spacer_small">-4dp</dimen>
+    <dimen name="negative_spacer_medium">-10dp</dimen>
+    <dimen name="negative_spacer_large">-14dp</dimen>
+    <dimen name="negative_spacer_xlarge">-20dp</dimen>
+    <dimen name="negative_spacer_xxlarge">-24dp</dimen>
+    <dimen name="negative_spacer_xxxlarge">-30dp</dimen>
+
+    <!-- Goals List -->
+    <dimen name="goal_list_row_hpadding">16dp</dimen>
+    <dimen name="goal_list_row_vpadding">22dp</dimen>
+    <dimen name="goal_list_row_name_size">16dp</dimen>
+</resources>

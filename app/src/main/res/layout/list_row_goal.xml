@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:paddingLeft="@dimen/goal_list_row_hpadding"
+    android:paddingRight="@dimen/goal_list_row_hpadding"
+    android:paddingTop="@dimen/goal_list_row_vpadding"
+    android:paddingBottom="@dimen/goal_list_row_vpadding"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/goal_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal name"
+        android:textSize="@dimen/goal_list_row_name_size"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/goal_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20 of $1000"
+        android:textColor="@color/pp_grey_dark"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>
