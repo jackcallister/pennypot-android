@@ -24,12 +24,15 @@ public class HomeActivity extends Activity {
     private void initGoalsList() {
         //TODO: remove static data
         ArrayList<Goal> goalsList = new ArrayList<Goal>();
-        goalsList.add(new Goal("San Fran", 200, 2500));
-        goalsList.add(new Goal("Macbook Pro", 150, 3200));
-        goalsList.add(new Goal("New Sofa", 80, 1600));
+        goalsList.add(new Goal("San Fran", 2250, 2500));
+        goalsList.add(new Goal("Macbook Pro", 450, 3200));
+        goalsList.add(new Goal("New Sofa", 900, 1600));
 
         mGoalsList = (ListView) findViewById(R.id.goals_list);
         mGoalsList.setAdapter(new GoalsListAdapter(this, goalsList));
+        SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
+        mGoalsList.setOnTouchListener(touchListener);
+        mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
     }
 
 }

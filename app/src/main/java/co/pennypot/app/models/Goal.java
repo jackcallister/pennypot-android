@@ -14,6 +14,10 @@ public class Goal {
         this.target = target;
     }
 
+    public int getProgressPercentage() {
+        return (int) Math.round(getBalance() / (1.0 * getTarget()) * 100);
+    }
+
     public String getName() {
         return name;
     }
@@ -37,4 +41,5 @@ public class Goal {
     public void setTarget(int target) {
         this.target = target;
     }
+
 }

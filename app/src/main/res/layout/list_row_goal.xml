@@ -1,31 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<co.pennypot.app.SwipeListViewRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:paddingLeft="@dimen/goal_list_row_hpadding"
-    android:paddingRight="@dimen/goal_list_row_hpadding"
-    android:paddingTop="@dimen/goal_list_row_vpadding"
-    android:paddingBottom="@dimen/goal_list_row_vpadding"
-    android:background="@color/white">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/goal_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/row_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/pp_purple"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/row_foreground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Goal name"
-        android:textSize="@dimen/goal_list_row_name_size"
-        android:textColor="@color/black"
-        android:layout_centerVertical="true" />
+        android:paddingLeft="@dimen/goal_list_row_hpadding"
+        android:paddingRight="@dimen/goal_list_row_hpadding"
+        android:paddingTop="@dimen/goal_list_row_vpadding"
+        android:paddingBottom="@dimen/goal_list_row_vpadding"
+        android:background="@color/white">
 
-    <TextView
-        android:id="@+id/goal_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20 of $1000"
-        android:textColor="@color/pp_grey_dark"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacer_medium">
+
+                <TextView
+                    android:id="@+id/goal_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Goal name"
+                    android:textSize="@dimen/goal_list_row_name_size"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/goal_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 of $1000"
+                    android:textColor="@color/pp_grey_dark"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <co.pennypot.app.GoalProgressBarView
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/goal_list_progress_bar_height"
+                android:background="@color/pp_grey_light" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</co.pennypot.app.SwipeListViewRow>
