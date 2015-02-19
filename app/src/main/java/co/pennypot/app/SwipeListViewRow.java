@@ -2,16 +2,18 @@ package co.pennypot.app;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 public class SwipeListViewRow extends FrameLayout {
 
     private ViewGroup mBackgroundView;
 
     private ViewGroup mForegroundView;
+
+    private ImageView mIvActionIcon;
 
     public SwipeListViewRow(Context context) {
         super(context);
@@ -36,9 +38,7 @@ public class SwipeListViewRow extends FrameLayout {
         super.onAttachedToWindow();
         mBackgroundView = (ViewGroup) findViewById(R.id.row_background);
         mForegroundView = (ViewGroup) findViewById(R.id.row_foreground);
-
-        Log.d("BACKGROUND VIEW", mBackgroundView.toString());
-        Log.d("FOREGROUND VIEW", mForegroundView.toString());
+        mIvActionIcon = (ImageView) findViewById(R.id.iv_background_action);
     }
 
     public static SwipeListViewRow inflate(ViewGroup parent) {
@@ -49,11 +49,14 @@ public class SwipeListViewRow extends FrameLayout {
     }
 
     public void setForegroundTranslationX(float translationX) {
-        Log.d("SWIPELISTROW", "setForegroundTranslationX: " + translationX);
+        if (translationX > mIvActionIcon.getRight()) {
+            mBackgroundView.setBackgroundColor(getResources().getColor(R.color.pp_purple));
+        }
         mForegroundView.setTranslationX(translationX);
     }
 
     public void resetForegroundTranslation() {
+        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.goal_list_row_background_inactive));
         mForegroundView.animate()
                 .translationX(0)
                 .setDuration(200)

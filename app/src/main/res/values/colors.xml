@@ -14,4 +14,6 @@
     <color name="pp_purple">#673AB7</color>
     <color name="pp_red">#C62828</color>
     <color name="pp_blue">#3F51B5</color>
+
+    <color name="goal_list_row_background_inactive">#DFDFDF</color>
 </resources>

@@ -4,13 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/row_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/pp_purple"
-        android:orientation="horizontal">
-    </LinearLayout>
+        android:background="@color/goal_list_row_background_inactive">
+
+        <ImageView
+            android:id="@+id/iv_background_action"
+            android:layout_width="@dimen/goal_list_row_action_icon_size"
+            android:layout_height="@dimen/goal_list_row_action_icon_size"
+            android:layout_marginLeft="@dimen/goal_list_row_action_icon_margin"
+            android:layout_marginRight="@dimen/goal_list_row_action_icon_margin"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_coin" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/row_foreground"
