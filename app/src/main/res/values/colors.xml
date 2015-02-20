@@ -11,8 +11,8 @@
     <color name="pp_grey_light">#E0E0E0</color>
     <color name="pp_grey_dark">#4C4C4C</color>
     <color name="pp_grey_background">#ECECEC</color>
-    <color name="pp_purple">#673AB7</color>
-    <color name="pp_red">#C62828</color>
+    <color name="pp_purple">#6A7CAB</color>
+    <color name="pp_red">#FA5B5E</color>
     <color name="pp_blue">#3F51B5</color>
 
     <color name="goal_list_row_background_inactive">#DFDFDF</color>
