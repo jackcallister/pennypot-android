@@ -27,10 +27,20 @@ public class HomeActivity extends Activity {
         goalsList.add(new Goal("San Fran", 2250, 2500));
         goalsList.add(new Goal("Macbook Pro", 450, 3200));
         goalsList.add(new Goal("New Sofa", 900, 1600));
+        goalsList.add(new Goal("San Fran", 2250, 2500));
+        goalsList.add(new Goal("Macbook Pro", 450, 3200));
+        goalsList.add(new Goal("New Sofa", 900, 1600));
+        goalsList.add(new Goal("San Fran", 2250, 2500));
+        goalsList.add(new Goal("Macbook Pro", 450, 3200));
+        goalsList.add(new Goal("New Sofa", 900, 1600));
+        goalsList.add(new Goal("San Fran", 2250, 2500));
+        goalsList.add(new Goal("Macbook Pro", 450, 3200));
+        goalsList.add(new Goal("New Sofa", 900, 1600));
 
         mGoalsList = (ListView) findViewById(R.id.goals_list);
         mGoalsList.setAdapter(new GoalsListAdapter(this, goalsList));
         SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
+
         mGoalsList.setOnTouchListener(touchListener);
         mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
     }
