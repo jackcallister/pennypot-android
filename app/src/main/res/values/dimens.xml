@@ -32,5 +32,5 @@
     <dimen name="goal_list_row_name_size">16dp</dimen>
     <dimen name="goal_list_progress_bar_height">6dp</dimen>
     <dimen name="goal_list_row_action_icon_size">32dp</dimen>
-    <dimen name="goal_list_row_action_icon_margin">28dp</dimen>
+    <dimen name="goal_list_row_action_icon_padding">14dp</dimen>
 </resources>

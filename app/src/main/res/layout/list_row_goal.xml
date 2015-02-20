@@ -12,10 +12,10 @@
 
         <ImageView
             android:id="@+id/iv_background_action"
-            android:layout_width="@dimen/goal_list_row_action_icon_size"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/goal_list_row_action_icon_size"
-            android:layout_marginLeft="@dimen/goal_list_row_action_icon_margin"
-            android:layout_marginRight="@dimen/goal_list_row_action_icon_margin"
+            android:paddingLeft="@dimen/goal_list_row_action_icon_padding"
+            android:paddingRight="@dimen/goal_list_row_action_icon_padding"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_coin" />

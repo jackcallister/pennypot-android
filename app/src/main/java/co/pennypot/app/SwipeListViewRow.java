@@ -15,22 +15,31 @@ public class SwipeListViewRow extends FrameLayout {
 
     private ImageView mIvActionIcon;
 
+    private int mBackgroundColourInactive;
+
+    private int[] mBackgroundColours;
+
     public SwipeListViewRow(Context context) {
         super(context);
-        setupChildren();
+        init();
     }
 
     public SwipeListViewRow(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setupChildren();
+        init();
     }
 
     public SwipeListViewRow(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setupChildren();
+        init();
     }
 
-    public void setupChildren() {
+    public void init() {
+        mBackgroundColourInactive = getResources().getColor(R.color.goal_list_row_background_inactive);
+        mBackgroundColours = new int[] {
+                getResources().getColor(R.color.pp_purple),
+                getResources().getColor(R.color.pp_red)
+        };
     }
 
     @Override
@@ -42,24 +51,41 @@ public class SwipeListViewRow extends FrameLayout {
     }
 
     public static SwipeListViewRow inflate(ViewGroup parent) {
-        //TODO: genericize
         SwipeListViewRow row = (SwipeListViewRow) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_row_goal, parent, false);
         return row;
     }
 
     public void setForegroundTranslationX(float translationX) {
-        if (translationX > mIvActionIcon.getRight()) {
-            mBackgroundView.setBackgroundColor(getResources().getColor(R.color.pp_purple));
-        }
         mForegroundView.setTranslationX(translationX);
+        setBackgroundColor(translationX);
+        setActionIconTranslation(translationX);
     }
 
     public void resetForegroundTranslation() {
-        mBackgroundView.setBackgroundColor(getResources().getColor(R.color.goal_list_row_background_inactive));
+        mBackgroundView.setBackgroundColor(mBackgroundColourInactive);
+        mIvActionIcon.animate()
+                .translationX(0)
+                .setDuration(200)
+                .setListener(null);
         mForegroundView.animate()
                 .translationX(0)
                 .setDuration(200)
                 .setListener(null);
+    }
+
+    private void setActionIconTranslation(float translationX) {
+        if (translationX > mIvActionIcon.getRight()) {
+            float deltaX = translationX - mIvActionIcon.getRight();
+            mIvActionIcon.setTranslationX(deltaX);
+        }
+    }
+
+    private void setBackgroundColor(float translationX) {
+        if (translationX < mIvActionIcon.getRight()) {
+            mBackgroundView.setBackgroundColor(mBackgroundColourInactive);
+        } else {
+            mBackgroundView.setBackgroundColor(mBackgroundColours[0]);
+        }
     }
 }
