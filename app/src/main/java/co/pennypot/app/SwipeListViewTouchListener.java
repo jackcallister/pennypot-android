@@ -1,9 +1,9 @@
 package co.pennypot.app;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
@@ -11,17 +11,19 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
     private ListView mListView;
 
+    private int mTouchSlop;
+    private SwipeListViewRow mDownView;
     private float mDownX;
     private boolean mPaused;
-    private SwipeListViewRow mDownView;
 
     public SwipeListViewTouchListener(ListView listView) {
+        ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
+        mTouchSlop = vc.getScaledTouchSlop();
         mListView = listView;
     }
 
     @Override
     public boolean onTouch(View row, MotionEvent event) {
-        Log.d("SwipeListViewTouchListener", "On touch");
         final float eventRawX = (int) event.getRawX();
 
         switch (event.getActionMasked()) {
@@ -36,13 +38,12 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 mListView.getLocationOnScreen(listViewCoords);
                 int x = (int) event.getRawX() - listViewCoords[0];
                 int y = (int) event.getRawY() - listViewCoords[1];
+
                 SwipeListViewRow child;
                 for (int i = 0; i < childCount; i++) {
                     child = (SwipeListViewRow) mListView.getChildAt(i);
-                    Log.d("CHILD", child.toString());
                     child.getHitRect(rect);
                     if (rect.contains(x, y)) {
-                        Log.d("MDOWNVIEW", child.toString());
                         mDownView = child;
                         break;
                     }
@@ -55,19 +56,26 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 return false;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+                mListView.requestDisallowInterceptTouchEvent(false);
                 mDownView.resetForegroundTranslation();
                 mDownView = null;
-                mListView.requestDisallowInterceptTouchEvent(false);
+                mDownX = 0;
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d("MOVE", ""+eventRawX);
-                if (mDownView != null) {
-                    Log.d("MOVE", mDownView.toString());
-                    mListView.requestDisallowInterceptTouchEvent(true);
-                    float deltaX = eventRawX - mDownX;
-                    mDownView.setForegroundTranslationX(deltaX);
-                    return true;
+                if (mPaused) {
+                    break;
                 }
+
+                if (mDownView != null) {
+                    float deltaX = eventRawX - mDownX;
+
+                    if (deltaX > mTouchSlop) {
+                        mDownView.setForegroundTranslationX(deltaX);
+                        mListView.requestDisallowInterceptTouchEvent(true);
+                        return true;
+                    }
+                }
+
                 break;
         }
 
