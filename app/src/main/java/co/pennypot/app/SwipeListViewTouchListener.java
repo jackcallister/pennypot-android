@@ -10,9 +10,8 @@ import android.widget.ListView;
 public class SwipeListViewTouchListener implements View.OnTouchListener {
 
     private ListView mListView;
-
     private int mTouchSlop;
-    private SwipeListViewRow mDownView;
+    private GoalListViewRow mDownView;
     private float mDownX;
     private boolean mPaused;
 
@@ -39,9 +38,9 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 int x = (int) event.getRawX() - listViewCoords[0];
                 int y = (int) event.getRawY() - listViewCoords[1];
 
-                SwipeListViewRow child;
+                GoalListViewRow child;
                 for (int i = 0; i < childCount; i++) {
-                    child = (SwipeListViewRow) mListView.getChildAt(i);
+                    child = (GoalListViewRow) mListView.getChildAt(i);
                     child.getHitRect(rect);
                     if (rect.contains(x, y)) {
                         mDownView = child;
@@ -55,9 +54,14 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
                 return false;
             case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
                 mListView.requestDisallowInterceptTouchEvent(false);
                 mDownView.resetForegroundTranslation();
+                mDownView = null;
+                mDownX = 0;
+                break;
+            case MotionEvent.ACTION_UP:
+                mListView.requestDisallowInterceptTouchEvent(false);
+                mDownView.onSwipeReleased();
                 mDownView = null;
                 mDownX = 0;
                 break;
@@ -70,7 +74,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                     float deltaX = eventRawX - mDownX;
 
                     if (deltaX > mTouchSlop) {
-                        mDownView.setForegroundTranslationX(deltaX);
+                        mDownView.setSwipePosition(deltaX);
                         mListView.requestDisallowInterceptTouchEvent(true);
                         return true;
                     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<co.pennypot.app.SwipeListViewRow xmlns:android="http://schemas.android.com/apk/res/android"
+<co.pennypot.app.GoalListViewRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -71,4 +71,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</co.pennypot.app.SwipeListViewRow>
+</co.pennypot.app.GoalListViewRow>

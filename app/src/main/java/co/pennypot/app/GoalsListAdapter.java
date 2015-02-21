@@ -11,7 +11,9 @@ import java.util.List;
 
 import co.pennypot.app.models.Goal;
 
-public class GoalsListAdapter extends ArrayAdapter<Goal> {
+public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListViewRow.ActionTriggeredListener {
+
+    private enum ActionType { EDIT, DELETE };
 
     public GoalsListAdapter(Context context, List<Goal> objects) {
         super(context, 0, objects);
@@ -25,15 +27,17 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SwipeListViewRow row = null;
+        GoalListViewRow row = null;
         ViewHolder holder;
 
         if (convertView != null) {
-            row = (SwipeListViewRow) convertView;
+            row = (GoalListViewRow) convertView;
         }
 
         if (row == null) {
-            row = SwipeListViewRow.inflate(parent);
+            row = GoalListViewRow.inflate(parent);
+            row.setActionTypes(ActionType.values());
+            row.setActionTriggeredListener(this);
 
             holder = new ViewHolder();
             holder.tvName = (TextView) row.findViewById(R.id.goal_name);
@@ -49,7 +53,6 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> {
         holder.tvName.setText(goal.getName());
         holder.tvProgress.setText(formatProgressString(goal));
         holder.progressBar.setProgress(goal.getProgressPercentage());
-        Log.d("GoalsListAdapter", "Goal : " + goal.getName() + " progress: " + goal.getProgressPercentage());
 
         return row;
     }
@@ -58,4 +61,8 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> {
         return String.format("$%d of $%d", goal.getBalance(), goal.getTarget());
     }
 
+    @Override
+    public void onActionTriggered(Enum actionType) {
+        Log.d("GoalsListAdapter", "Action triggered: " + actionType.name());
+    }
 }
