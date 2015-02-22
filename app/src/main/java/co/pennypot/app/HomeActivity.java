@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -25,13 +26,20 @@ public class HomeActivity extends Activity {
 
     private View mNewGoalForm;
 
+    private ImageButton mBtnNewGoal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mRootLayout = (RelativeLayout) findViewById(R.id.container);
+        initUI();
         initGoalsList();
+    }
+
+    private void initUI() {
+        mRootLayout = (RelativeLayout) findViewById(R.id.container);
+        mBtnNewGoal = (ImageButton) findViewById(R.id.btn_new_goal);
     }
 
     private void initGoalsList() {
@@ -60,6 +68,7 @@ public class HomeActivity extends Activity {
     }
 
     private void showNewGoalForm() {
+        ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", 0.0f, -45.0f).start();
         mNewGoalForm = new NewGoalFormView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -78,6 +87,7 @@ public class HomeActivity extends Activity {
     }
 
     private void hideNewGoalForm() {
+        ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", -45.0f, 0.0f).start();
         float height = mNewGoalForm.getHeight();
         ObjectAnimator anim = ObjectAnimator.ofFloat(mNewGoalForm, "translationY", height, 0.0f);
         anim.addListener(new Animator.AnimatorListener() {

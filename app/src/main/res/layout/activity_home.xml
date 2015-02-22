@@ -44,6 +44,7 @@
             android:layout_marginBottom="@dimen/spacer_large" />
 
         <ImageButton
+            android:id="@+id/btn_new_goal"
             android:layout_width="@dimen/hero_image_new_goal_btn_size"
             android:layout_height="@dimen/hero_image_new_goal_btn_size"
             android:padding="@dimen/hero_image_new_goal_btn_padding"
