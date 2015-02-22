@@ -1,10 +1,25 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".HomeActivity"
     android:background="@color/pp_grey_background">
+
+    <RelativeLayout
+        android:id="@+id/goal_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hero_image_container">
+
+        <ListView
+            android:id="@+id/goals_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/pp_grey_light"
+            android:dividerHeight="1dp"></ListView>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/hero_image_container"
@@ -27,18 +42,19 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/spacer_large"
             android:layout_marginBottom="@dimen/spacer_large" />
+
+        <ImageButton
+            android:layout_width="@dimen/hero_image_new_goal_btn_size"
+            android:layout_height="@dimen/hero_image_new_goal_btn_size"
+            android:padding="@dimen/hero_image_new_goal_btn_padding"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/spacer_large"
+            android:layout_marginBottom="@dimen/spacer_small"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/ic_plus"
+            android:onClick="onNewGoalPressed" />
      </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ListView
-            android:id="@+id/goals_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@color/pp_grey_light"
-            android:dividerHeight="1dp"></ListView>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
