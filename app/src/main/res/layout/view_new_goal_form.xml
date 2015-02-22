@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/spacer_large"
+    android:paddingRight="@dimen/spacer_large">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacer_large"
+            android:paddingBottom="@dimen/spacer_large"
+            android:hint="@string/new_goal_name_hint" />
+        
+        <EditText
+            android:id="@+id/goal_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacer_medium"
+            android:paddingTop="@dimen/spacer_large"
+            android:paddingBottom="@dimen/spacer_large"
+            android:background="@null"
+            android:lines="1"
+            android:singleLine="true"
+            android:text="Macbook Air"
+            android:textColor="@color/pp_grey_dark"
+            android:focusable="true"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/pp_grey_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacer_large"
+            android:paddingBottom="@dimen/spacer_large"
+            android:hint="@string/new_goal_target_hint" />
+
+        <EditText
+            android:id="@+id/goal_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacer_small"
+            android:paddingTop="@dimen/spacer_large"
+            android:paddingBottom="@dimen/spacer_large"
+            android:background="@null"
+            android:lines="1"
+            android:singleLine="true"
+            android:text="2800"
+            android:textColor="@color/pp_grey_dark"
+            android:focusable="true"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/pp_grey_light" />
+
+</LinearLayout>
