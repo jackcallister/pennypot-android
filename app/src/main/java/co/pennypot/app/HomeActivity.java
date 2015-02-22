@@ -51,38 +51,46 @@ public class HomeActivity extends Activity {
 
     public void onNewGoalPressed(View view) {
         if (!mNewGoalFormVisible) {
-            mNewGoalForm = new NewGoalFormView(this);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.ABOVE, R.id.goal_list_container);
-            mNewGoalForm.setLayoutParams(params);
-            mRootLayout.addView(mNewGoalForm, 1);
-
-            mNewGoalForm.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    mNewGoalForm.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    float height = mNewGoalForm.getHeight();
-                    ObjectAnimator.ofFloat(mNewGoalForm, "translationY", 0.0f, height).start();
-                }
-            });
+            showNewGoalForm();
         } else {
-            float height = mNewGoalForm.getHeight();
-            ObjectAnimator anim = ObjectAnimator.ofFloat(mNewGoalForm, "translationY", height, 0.0f);
-            anim.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRootLayout.removeView(mNewGoalForm);
-                }
-
-                public void onAnimationStart(Animator animation) { }
-                public void onAnimationCancel(Animator animation) { }
-                public void onAnimationRepeat(Animator animation) { }
-            });
-            anim.start();
+            hideNewGoalForm();
         }
 
         mNewGoalFormVisible = !mNewGoalFormVisible;
+    }
+
+    private void showNewGoalForm() {
+        mNewGoalForm = new NewGoalFormView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ABOVE, R.id.goal_list_container);
+        mNewGoalForm.setLayoutParams(params);
+        mRootLayout.addView(mNewGoalForm, 1);
+
+        mNewGoalForm.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mNewGoalForm.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                float height = mNewGoalForm.getHeight();
+                ObjectAnimator.ofFloat(mNewGoalForm, "translationY", 0.0f, height).start();
+            }
+        });
+    }
+
+    private void hideNewGoalForm() {
+        float height = mNewGoalForm.getHeight();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(mNewGoalForm, "translationY", height, 0.0f);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mRootLayout.removeView(mNewGoalForm);
+            }
+
+            public void onAnimationStart(Animator animation) { }
+            public void onAnimationCancel(Animator animation) { }
+            public void onAnimationRepeat(Animator animation) { }
+        });
+        anim.start();
     }
 
 }
