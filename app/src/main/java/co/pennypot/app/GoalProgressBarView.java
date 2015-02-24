@@ -69,6 +69,7 @@ public class GoalProgressBarView extends View {
 
     public void setProgress(int mProgress) {
         this.mProgress = mProgress;
+        invalidate();
     }
 
 }
