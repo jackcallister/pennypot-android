@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light" />
 
-    <style name="AppTheme.ActionBarOverlay" parent="android:Theme.Holo">
+    <style name="AppTheme.ActionBarOverlay" parent="AppTheme">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/OverlayActionBar</item>
     </style>
