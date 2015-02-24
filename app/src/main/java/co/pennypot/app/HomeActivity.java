@@ -26,6 +26,8 @@ public class HomeActivity extends Activity {
 
     private View mNewGoalForm;
 
+    private View mNewGoalFormBlackout;
+
     private ImageButton mBtnNewGoal;
 
     @Override
@@ -40,6 +42,7 @@ public class HomeActivity extends Activity {
     private void initUI() {
         mRootLayout = (RelativeLayout) findViewById(R.id.container);
         mBtnNewGoal = (ImageButton) findViewById(R.id.btn_new_goal);
+        mNewGoalFormBlackout = (View) findViewById(R.id.new_goal_form_blackout);
     }
 
     private void initGoalsList() {
@@ -69,6 +72,8 @@ public class HomeActivity extends Activity {
 
     private void showNewGoalForm() {
         ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", 0.0f, -45.0f).start();
+        ObjectAnimator.ofFloat(mNewGoalFormBlackout, "alpha", 0.0f, 0.75f).start();
+
         mNewGoalForm = new NewGoalFormView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -88,6 +93,8 @@ public class HomeActivity extends Activity {
 
     private void hideNewGoalForm() {
         ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", -45.0f, 0.0f).start();
+        ObjectAnimator.ofFloat(mNewGoalFormBlackout, "alpha", 0.75f, 0).start();
+
         float height = mNewGoalForm.getHeight();
         ObjectAnimator anim = ObjectAnimator.ofFloat(mNewGoalForm, "translationY", height, 0.0f);
         anim.addListener(new Animator.AnimatorListener() {

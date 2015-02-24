@@ -72,4 +72,13 @@
         android:layout_height="1dp"
         android:background="@color/pp_grey_light" />
 
+    <Button
+        android:textColor="@color/primary_blue"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/btn_new_goal_form_add"
+        android:textAllCaps="true" />
+
 </LinearLayout>

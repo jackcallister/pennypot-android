@@ -4,5 +4,6 @@
     <string name="app_name">Pennypot</string>
     <string name="new_goal_name_hint">I want a:</string>
     <string name="new_goal_target_hint">It costs: $</string>
+    <string name="btn_new_goal_form_add">Add</string>
 
 </resources>

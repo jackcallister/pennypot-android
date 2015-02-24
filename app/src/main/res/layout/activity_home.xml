@@ -19,6 +19,13 @@
             android:layout_height="wrap_content"
             android:divider="@color/pp_grey_light"
             android:dividerHeight="1dp"></ListView>
+
+        <View
+            android:id="@+id/new_goal_form_blackout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:alpha="0" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,13 +54,13 @@
             android:id="@+id/btn_new_goal"
             android:layout_width="@dimen/hero_image_new_goal_btn_size"
             android:layout_height="@dimen/hero_image_new_goal_btn_size"
+            android:background="@drawable/btn_new_goal_ripple"
             android:padding="@dimen/hero_image_new_goal_btn_padding"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/spacer_large"
             android:layout_marginBottom="@dimen/spacer_small"
             android:scaleType="fitCenter"
-            android:background="@null"
             android:src="@drawable/ic_plus"
             android:onClick="onNewGoalPressed" />
      </RelativeLayout>
