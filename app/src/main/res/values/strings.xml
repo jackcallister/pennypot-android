@@ -5,5 +5,6 @@
     <string name="new_goal_name_hint">I want a:</string>
     <string name="new_goal_target_hint">It costs: $</string>
     <string name="btn_new_goal_form_add">Add</string>
+    <string name="new_goal_save_error">Whoops, that didn\'t work - have another go!</string>
 
 </resources>

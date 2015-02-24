@@ -54,17 +54,21 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
                 return false;
             case MotionEvent.ACTION_CANCEL:
-                mListView.requestDisallowInterceptTouchEvent(false);
-                mDownView.resetForegroundTranslation();
-                mDownView = null;
-                mDownX = 0;
-                break;
+                if (mDownView != null) {
+                    mListView.requestDisallowInterceptTouchEvent(false);
+                    mDownView.resetForegroundTranslation();
+                    mDownView = null;
+                    mDownX = 0;
+                    break;
+                }
             case MotionEvent.ACTION_UP:
-                mListView.requestDisallowInterceptTouchEvent(false);
-                mDownView.onSwipeReleased();
-                mDownView = null;
-                mDownX = 0;
-                break;
+                if (mDownView != null) {
+                    mListView.requestDisallowInterceptTouchEvent(false);
+                    mDownView.onSwipeReleased();
+                    mDownView = null;
+                    mDownX = 0;
+                    break;
+                }
             case MotionEvent.ACTION_MOVE:
                 if (mPaused) {
                     break;

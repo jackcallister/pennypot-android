@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,10 @@ import co.pennypot.app.models.Goal;
 public class HomeActivity extends Activity {
 
     private ListView mGoalsList;
+
+    private ArrayList<Goal> mGoals;
+
+    private GoalsListAdapter mGoalsListAdapter;
 
     private boolean mNewGoalFormVisible;
 
@@ -47,13 +53,14 @@ public class HomeActivity extends Activity {
 
     private void initGoalsList() {
         //TODO: remove static data
-        ArrayList<Goal> goalsList = new ArrayList<Goal>();
-        goalsList.add(new Goal("San Fran", 2250, 2500));
-        goalsList.add(new Goal("Macbook Pro", 450, 3200));
-        goalsList.add(new Goal("New Sofa", 900, 1600));
+        mGoals = new ArrayList<Goal>();
+        mGoals.add(new Goal("San Fran", 2250, 2500));
+        mGoals.add(new Goal("Macbook Pro", 450, 3200));
+        mGoals.add(new Goal("New Sofa", 900, 1600));
 
         mGoalsList = (ListView) findViewById(R.id.goals_list);
-        mGoalsList.setAdapter(new GoalsListAdapter(this, goalsList));
+        mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
+        mGoalsList.setAdapter(mGoalsListAdapter);
         SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
 
         mGoalsList.setOnTouchListener(touchListener);
@@ -68,6 +75,25 @@ public class HomeActivity extends Activity {
         }
 
         mNewGoalFormVisible = !mNewGoalFormVisible;
+    }
+
+    public void onNewGoalFormAddPressed(View view) {
+        String goalName = ((EditText) findViewById(R.id.new_goal_form_name)).getText().toString();
+        String goalTargetStr = ((EditText) findViewById(R.id.new_goal_form_target)).getText().toString();
+
+        try {
+            int goalTarget = Integer.parseInt(goalTargetStr);
+            Goal newGoal = new Goal(goalName, 0, goalTarget);
+
+            mGoals.add(newGoal);
+            mGoalsListAdapter.notifyDataSetChanged();
+            hideNewGoalForm();
+        } catch (NumberFormatException e) {
+            Toast.makeText(this,
+                    getResources().getString(R.string.new_goal_save_error),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     private void showNewGoalForm() {

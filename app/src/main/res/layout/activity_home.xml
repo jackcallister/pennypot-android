@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/pp_grey_light"
-            android:dividerHeight="1dp"></ListView>
+            android:dividerHeight="1dp"
+            android:animateLayoutChanges="true"></ListView>
 
         <View
             android:id="@+id/new_goal_form_blackout"

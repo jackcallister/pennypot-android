@@ -20,7 +20,7 @@
             android:hint="@string/new_goal_name_hint" />
         
         <EditText
-            android:id="@+id/goal_name"
+            android:id="@+id/new_goal_form_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacer_medium"
@@ -52,7 +52,7 @@
             android:hint="@string/new_goal_target_hint" />
 
         <EditText
-            android:id="@+id/goal_target"
+            android:id="@+id/new_goal_form_target"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacer_small"
@@ -73,12 +73,14 @@
         android:background="@color/pp_grey_light" />
 
     <Button
-        android:textColor="@color/primary_blue"
+        android:id="@+id/btn_new_goal_form_add"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:text="@string/btn_new_goal_form_add"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textColor="@color/primary_blue"
+        android:onClick="onNewGoalFormAddPressed" />
 
 </LinearLayout>
