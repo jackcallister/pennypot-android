@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import co.pennypot.app.models.Goal;
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements GoalsListAdapter.GoalActionsListener {
 
     private ListView mGoalsList;
 
@@ -60,6 +60,7 @@ public class HomeActivity extends Activity {
 
         mGoalsList = (ListView) findViewById(R.id.goals_list);
         mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
+        mGoalsListAdapter.setGoalActionsListener(this);
         mGoalsList.setAdapter(mGoalsListAdapter);
         SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
 
@@ -73,8 +74,6 @@ public class HomeActivity extends Activity {
         } else {
             hideNewGoalForm();
         }
-
-        mNewGoalFormVisible = !mNewGoalFormVisible;
     }
 
     public void onNewGoalFormAddPressed(View view) {
@@ -96,6 +95,17 @@ public class HomeActivity extends Activity {
         }
     }
 
+    @Override
+    public void deleteGoal(Goal goal) {
+        mGoals.remove(goal);
+        mGoalsListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void editGoal(Goal goal) {
+        //TODO
+    }
+
     private void showNewGoalForm() {
         ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", 0.0f, -45.0f).start();
         ObjectAnimator.ofFloat(mNewGoalFormBlackout, "alpha", 0.0f, 0.75f).start();
@@ -115,6 +125,8 @@ public class HomeActivity extends Activity {
                 ObjectAnimator.ofFloat(mNewGoalForm, "translationY", 0.0f, height).start();
             }
         });
+
+        mNewGoalFormVisible = true;
     }
 
     private void hideNewGoalForm() {
@@ -127,6 +139,7 @@ public class HomeActivity extends Activity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mRootLayout.removeView(mNewGoalForm);
+                mNewGoalFormVisible = false;
             }
 
             public void onAnimationStart(Animator animation) { }

@@ -11,12 +11,23 @@ import java.util.List;
 
 import co.pennypot.app.models.Goal;
 
-public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListViewRow.ActionTriggeredListener {
+public class GoalsListAdapter extends ArrayAdapter<Goal> {
+
+    public interface GoalActionsListener {
+        void deleteGoal(Goal goal);
+        void editGoal(Goal goal);
+    }
+
+    private GoalActionsListener mGoalActionsListener;
 
     private enum ActionType { EDIT, DELETE };
 
     public GoalsListAdapter(Context context, List<Goal> objects) {
         super(context, 0, objects);
+    }
+
+    public void setGoalActionsListener(GoalActionsListener listener) {
+        mGoalActionsListener = listener;
     }
 
     static class ViewHolder {
@@ -26,9 +37,10 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListView
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         GoalListViewRow row = null;
         ViewHolder holder;
+        final Goal goal = getItem(position);
 
         if (convertView != null) {
             row = (GoalListViewRow) convertView;
@@ -37,7 +49,6 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListView
         if (row == null) {
             row = GoalListViewRow.inflate(parent);
             row.setActionTypes(ActionType.values());
-            row.setActionTriggeredListener(this);
 
             holder = new ViewHolder();
             holder.tvName = (TextView) row.findViewById(R.id.goal_name);
@@ -49,7 +60,23 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListView
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Goal goal = getItem(position);
+        row.setActionTriggeredListener(new GoalListViewRow.ActionTriggeredListener() {
+            @Override
+            public void onActionTriggered(Enum actionType) {
+                Log.d("TRIGGER", "Action type: " + actionType.name());
+                Log.d("TRIGGER", "Goal: " + goal.getName());
+                if (mGoalActionsListener == null) return;
+                switch ((ActionType) actionType) {
+                    case EDIT:
+                        mGoalActionsListener.editGoal(goal);
+                        return;
+                    case DELETE:
+                        mGoalActionsListener.deleteGoal(goal);
+                        return;
+                }
+            }
+        });
+
         holder.tvName.setText(goal.getName());
         holder.tvProgress.setText(formatProgressString(goal));
         holder.progressBar.setProgress(goal.getProgressPercentage());
@@ -61,8 +88,4 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> implements GoalListView
         return String.format("$%d of $%d", goal.getBalance(), goal.getTarget());
     }
 
-    @Override
-    public void onActionTriggered(Enum actionType) {
-        Log.d("GoalsListAdapter", "Action triggered: " + actionType.name());
-    }
 }
