@@ -8,6 +8,10 @@ public class Goal {
 
     private int target;
 
+    private int id;
+
+    public Goal() { }
+
     public Goal(String name, int balance, int target) {
         this.name = name;
         this.balance = balance;
@@ -16,6 +20,14 @@ public class Goal {
 
     public int getProgressPercentage() {
         return (int) Math.round(getBalance() / (1.0 * getTarget()) * 100);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

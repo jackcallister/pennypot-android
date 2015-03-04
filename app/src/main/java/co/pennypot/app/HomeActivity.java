@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -13,16 +14,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.List;
 
+import co.pennypot.app.db.GoalsProvider;
 import co.pennypot.app.models.Goal;
 
 
 public class HomeActivity extends Activity implements GoalsListAdapter.GoalActionsListener {
 
+    private GoalsProvider mGoalsProvider;
+
     private ListView mGoalsList;
 
-    private ArrayList<Goal> mGoals;
+    private List<Goal> mGoals;
 
     private GoalsListAdapter mGoalsListAdapter;
 
@@ -35,6 +40,7 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
     private View mNewGoalFormBlackout;
 
     private ImageButton mBtnNewGoal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +58,23 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
     }
 
     private void initGoalsList() {
-        //TODO: remove static data
-        mGoals = new ArrayList<Goal>();
-        mGoals.add(new Goal("San Fran", 2250, 2500));
-        mGoals.add(new Goal("Macbook Pro", 450, 3200));
-        mGoals.add(new Goal("New Sofa", 900, 1600));
+        mGoalsProvider = new GoalsProvider(this);
 
-        mGoalsList = (ListView) findViewById(R.id.goals_list);
-        mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
-        mGoalsListAdapter.setGoalActionsListener(this);
-        mGoalsList.setAdapter(mGoalsListAdapter);
-        SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
+        try {
+            mGoalsProvider.open();
+            mGoals = mGoalsProvider.all();
 
-        mGoalsList.setOnTouchListener(touchListener);
-        mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
+            mGoalsList = (ListView) findViewById(R.id.goals_list);
+            mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
+            mGoalsListAdapter.setGoalActionsListener(this);
+            mGoalsList.setAdapter(mGoalsListAdapter);
+            SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
+
+            mGoalsList.setOnTouchListener(touchListener);
+            mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
+        } catch(SQLException e) {
+            Log.e("HomeActivity", "Failed to open goals database");
+        }
     }
 
     public void onNewGoalPressed(View view) {
