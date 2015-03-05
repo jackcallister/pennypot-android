@@ -32,7 +32,8 @@ public class GoalsProvider {
     public List<Goal> all() {
         List<Goal> goals = new ArrayList<Goal>();
 
-        Cursor cursor = mDatabase.query(GoalsTable.TABLE_NAME, GoalsTable.ALL_COLUMNS, null, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(GoalsTable.TABLE_NAME, GoalsTable.ALL_COLUMNS,
+                null, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             goals.add(toGoal(cursor));

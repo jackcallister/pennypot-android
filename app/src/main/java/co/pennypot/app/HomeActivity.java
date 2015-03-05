@@ -47,8 +47,16 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        mGoalsProvider = new GoalsProvider(this);
+
         initUI();
         initGoalsList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mGoalsProvider.close();
     }
 
     private void initUI() {
@@ -58,8 +66,6 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
     }
 
     private void initGoalsList() {
-        mGoalsProvider = new GoalsProvider(this);
-
         try {
             mGoalsProvider.open();
             mGoals = mGoalsProvider.all();
@@ -93,9 +99,11 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
             int goalTarget = Integer.parseInt(goalTargetStr);
             Goal newGoal = new Goal(goalName, 0, goalTarget);
 
-            mGoals.add(newGoal);
-            mGoalsListAdapter.notifyDataSetChanged();
-            hideNewGoalForm();
+            if (mGoalsProvider.save(newGoal)) {
+                mGoals.add(newGoal);
+                mGoalsListAdapter.notifyDataSetChanged();
+                hideNewGoalForm();
+            }
         } catch (NumberFormatException e) {
             Toast.makeText(this,
                     getResources().getString(R.string.new_goal_save_error),

@@ -16,16 +16,13 @@ public class PennypotDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createGoalsTable = "CREATE_TABLE " + GoalsTable.TABLE_NAME + "(" +
-                GoalsTable.KEY_ID + " INTEGER PRIMARY KEY," + GoalsTable.KEY_NAME + " TEXT,"
-                + GoalsTable.KEY_BALANCE + " INTEGER," + GoalsTable.KEY_TARGET + " INTEGER" + ")";
-        db.execSQL(createGoalsTable);
+        GoalsTable.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion == 1) {
-            db.execSQL("DROP TABLE IF EXISTS " + GoalsTable.TABLE_NAME);
+            GoalsTable.onUpgrade(db);
             onCreate(db);
         }
     }
