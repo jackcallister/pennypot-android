@@ -132,8 +132,15 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
 
     @Override
     public void deleteGoal(Goal goal) {
-        mGoals.remove(goal);
-        mGoalsListAdapter.notifyDataSetChanged();
+        if (mGoalsProvider.delete(goal)) {
+            mGoals.remove(goal);
+            mGoalsListAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this,
+                    getResources().getString(R.string.goal_delete_error),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     @Override

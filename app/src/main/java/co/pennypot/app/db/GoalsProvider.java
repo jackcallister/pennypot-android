@@ -61,6 +61,13 @@ public class GoalsProvider {
         return false;
     }
 
+    public boolean delete(Goal goal) {
+        if (goal.getId() <= 0) { return false; }
+        int rowsDeleted = mDatabase.delete(GoalsTable.TABLE_NAME,
+                "id=?", new String[] { String.valueOf(goal.getId()) });
+        return rowsDeleted == 1;
+    }
+
     private boolean isValid(Goal goal) {
         if (goal.getName() == null || goal.getName().equals("")) return false;
         return true;
