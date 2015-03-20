@@ -52,15 +52,12 @@ public class GoalProgressBarView extends View {
     }
 
     private int getProgressColorId() {
-        if (mProgress <= 10) {
-            return R.color.progress_bar_low;
-        } else if (mProgress < 33) {
-            return R.color.progress_bar_low_medium;
-        } else if (mProgress <= 66) {
-            return R.color.progress_bar_medium;
-        } else {
-            return R.color.progress_bar_high;
-        }
+        int resId = getResources().getIdentifier("progress_bar_" + roundedProgress(), "color", getContext().getPackageName());
+        return (resId != -1 ? resId : R.color.pp_grey_background);
+     }
+
+    public int roundedProgress() {
+        return (int) (Math.floor(mProgress/PROGRESS_ROUND_TO) * PROGRESS_ROUND_TO);
     }
 
     public int getProgress() {

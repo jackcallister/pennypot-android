@@ -3,26 +3,33 @@ package co.pennypot.app;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.List;
 
+import co.pennypot.app.db.GoalsProvider;
 import co.pennypot.app.models.Goal;
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements GoalsListAdapter.GoalActionsListener {
+
+    private GoalsProvider mGoalsProvider;
 
     private ListView mGoalsList;
 
-    private ArrayList<Goal> mGoals;
+    private List<Goal> mGoals;
 
     private GoalsListAdapter mGoalsListAdapter;
 
@@ -36,13 +43,22 @@ public class HomeActivity extends Activity {
 
     private ImageButton mBtnNewGoal;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        mGoalsProvider = new GoalsProvider(this);
+
         initUI();
         initGoalsList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mGoalsProvider.close();
     }
 
     private void initUI() {
@@ -52,19 +68,21 @@ public class HomeActivity extends Activity {
     }
 
     private void initGoalsList() {
-        //TODO: remove static data
-        mGoals = new ArrayList<Goal>();
-        mGoals.add(new Goal("San Fran", 2250, 2500));
-        mGoals.add(new Goal("Macbook Pro", 450, 3200));
-        mGoals.add(new Goal("New Sofa", 900, 1600));
+        try {
+            mGoalsProvider.open();
+            mGoals = mGoalsProvider.all();
 
-        mGoalsList = (ListView) findViewById(R.id.goals_list);
-        mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
-        mGoalsList.setAdapter(mGoalsListAdapter);
-        SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
+            mGoalsList = (ListView) findViewById(R.id.goals_list);
+            mGoalsListAdapter = new GoalsListAdapter(this, mGoals);
+            mGoalsListAdapter.setGoalActionsListener(this);
+            mGoalsList.setAdapter(mGoalsListAdapter);
+            SwipeListViewTouchListener touchListener = new SwipeListViewTouchListener(mGoalsList);
 
-        mGoalsList.setOnTouchListener(touchListener);
-        mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
+            mGoalsList.setOnTouchListener(touchListener);
+            mGoalsList.setOnScrollListener(touchListener.makeScrollListener());
+        } catch(SQLException e) {
+            Log.e("HomeActivity", "Failed to open goals database");
+        }
     }
 
     public void onNewGoalPressed(View view) {
@@ -73,27 +91,61 @@ public class HomeActivity extends Activity {
         } else {
             hideNewGoalForm();
         }
-
-        mNewGoalFormVisible = !mNewGoalFormVisible;
     }
 
     public void onNewGoalFormAddPressed(View view) {
-        String goalName = ((EditText) findViewById(R.id.new_goal_form_name)).getText().toString();
-        String goalTargetStr = ((EditText) findViewById(R.id.new_goal_form_target)).getText().toString();
+        EditText etGoalName = ((EditText) findViewById(R.id.new_goal_form_name));
+        EditText etGoalTarget = ((EditText) findViewById(R.id.new_goal_form_target));
+        String goalName = etGoalName.getText().toString();
+        String goalTargetStr = etGoalTarget.getText().toString();
 
+        boolean isValid = true;
+        if (goalName == null || goalName.equals("")) {
+            etGoalName.setError(getResources().getString(R.string.new_goal_name_error));
+            isValid = false;
+        }
+
+        int goalTarget = 0;
         try {
-            int goalTarget = Integer.parseInt(goalTargetStr);
-            Goal newGoal = new Goal(goalName, 0, goalTarget);
+            goalTarget = Integer.parseInt(goalTargetStr);
+            if (goalTarget <= 0) {
+                etGoalName.setError(getResources().getString(R.string.new_goal_name_error));
+                isValid = false;
+            }
+        } catch (NumberFormatException e) {
+            etGoalName.setError(getResources().getString(R.string.new_goal_name_error));
+        }
 
+        Goal newGoal = new Goal(goalName, 0, goalTarget);
+
+        if (mGoalsProvider.save(newGoal)) {
             mGoals.add(newGoal);
             mGoalsListAdapter.notifyDataSetChanged();
             hideNewGoalForm();
-        } catch (NumberFormatException e) {
+        } else {
             Toast.makeText(this,
                     getResources().getString(R.string.new_goal_save_error),
                     Toast.LENGTH_SHORT
             ).show();
         }
+    }
+
+    @Override
+    public void deleteGoal(Goal goal) {
+        if (mGoalsProvider.delete(goal)) {
+            mGoals.remove(goal);
+            mGoalsListAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this,
+                    getResources().getString(R.string.goal_delete_error),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+    }
+
+    @Override
+    public void editGoal(Goal goal) {
+        //TODO
     }
 
     private void showNewGoalForm() {
@@ -115,9 +167,12 @@ public class HomeActivity extends Activity {
                 ObjectAnimator.ofFloat(mNewGoalForm, "translationY", 0.0f, height).start();
             }
         });
+
+        mNewGoalFormVisible = true;
     }
 
     private void hideNewGoalForm() {
+        hideKeyboard();
         ObjectAnimator.ofFloat(mBtnNewGoal, "rotation", -45.0f, 0.0f).start();
         ObjectAnimator.ofFloat(mNewGoalFormBlackout, "alpha", 0.75f, 0).start();
 
@@ -127,13 +182,28 @@ public class HomeActivity extends Activity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mRootLayout.removeView(mNewGoalForm);
+                mNewGoalFormVisible = false;
             }
 
-            public void onAnimationStart(Animator animation) { }
-            public void onAnimationCancel(Animator animation) { }
-            public void onAnimationRepeat(Animator animation) { }
+            public void onAnimationStart(Animator animation) {
+            }
+
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            public void onAnimationRepeat(Animator animation) {
+            }
         });
         anim.start();
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            view.clearFocus();
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }
