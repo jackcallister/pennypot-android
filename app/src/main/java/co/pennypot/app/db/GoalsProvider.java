@@ -45,18 +45,25 @@ public class GoalsProvider {
     }
 
     public boolean save(Goal goal) {
-        ContentValues values = new ContentValues();
-        values.put(GoalsTable.KEY_NAME, goal.getName());
-        values.put(GoalsTable.KEY_BALANCE, goal.getBalance());
-        values.put(GoalsTable.KEY_TARGET, goal.getTarget());
+        if (isValid(goal)) {
+            ContentValues values = new ContentValues();
+            values.put(GoalsTable.KEY_NAME, goal.getName());
+            values.put(GoalsTable.KEY_BALANCE, goal.getBalance());
+            values.put(GoalsTable.KEY_TARGET, goal.getTarget());
 
-        int id = (int) mDatabase.insert(GoalsTable.TABLE_NAME, null, values);
-        if (id > 0) {
-            goal.setId(id);
-            return true;
+            int id = (int) mDatabase.insert(GoalsTable.TABLE_NAME, null, values);
+            if (id > 0) {
+                goal.setId(id);
+                return true;
+            }
         }
 
         return false;
+    }
+
+    private boolean isValid(Goal goal) {
+        if (goal.getName() == null || goal.getName().equals("")) return false;
+        return true;
     }
 
     private Goal toGoal(Cursor cursor) {
