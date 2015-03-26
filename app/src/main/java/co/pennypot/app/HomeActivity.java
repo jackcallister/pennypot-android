@@ -93,6 +93,7 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
         }
     }
 
+    //TODO: move validations to NewGoalForm
     public void onNewGoalFormAddPressed(View view) {
         EditText etGoalName = ((EditText) findViewById(R.id.new_goal_form_name));
         EditText etGoalTarget = ((EditText) findViewById(R.id.new_goal_form_target));

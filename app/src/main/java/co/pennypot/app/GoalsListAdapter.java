@@ -60,6 +60,7 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        final GoalListViewRow rowCopy = row;
         row.setActionTriggeredListener(new GoalListViewRow.ActionTriggeredListener() {
             @Override
             public void onActionTriggered(Enum actionType) {
@@ -69,9 +70,11 @@ public class GoalsListAdapter extends ArrayAdapter<Goal> {
                 switch ((ActionType) actionType) {
                     case EDIT:
                         mGoalActionsListener.editGoal(goal);
+                        rowCopy.resetForegroundTranslation(false);
                         return;
                     case DELETE:
                         mGoalActionsListener.deleteGoal(goal);
+                        rowCopy.resetForegroundTranslation(false);
                         return;
                 }
             }

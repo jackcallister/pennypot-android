@@ -1,5 +1,6 @@
 package co.pennypot.app;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -9,6 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 public class GoalListViewRow extends FrameLayout {
+
+    //TODO: move to resources
+    private int mAnimationDuration = 200;
+    private int mActionTriggerAnimationDuration = 250;
 
     public interface ActionTriggeredListener {
         public void onActionTriggered(Enum actionType);
@@ -28,7 +33,6 @@ public class GoalListViewRow extends FrameLayout {
 
     private Drawable[] mActionIcons;
 
-    private int mAnimationDuration = 200;
 
     private int mFirstActionThreshold;
 
@@ -95,23 +99,12 @@ public class GoalListViewRow extends FrameLayout {
         this.mActionTypes = actionTypes;
     }
 
-    //TODO: success action animation
-    // translate foreground to opposite end
     public void onSwipeReleased() {
         if (mLastSwipePosition < mFirstActionThreshold) {
-            resetForegroundTranslation();
+            resetForegroundTranslation(true);
             return;
         }
-
-        if (mActionTriggeredListener != null) {
-            if (mLastSwipePosition < mSecondActionThreshold) {
-                mActionTriggeredListener.onActionTriggered(mActionTypes[0]);
-            } else {
-                mActionTriggeredListener.onActionTriggered(mActionTypes[1]);
-            }
-        }
-
-        resetForegroundTranslation();
+        triggerActionWithAnimation();
     }
 
     public void setSwipePosition(float swipePosition) {
@@ -121,7 +114,7 @@ public class GoalListViewRow extends FrameLayout {
         }
 
         setForegroundTranslation(swipePosition);
-        setAction(swipePosition);
+        setActionForPosition(swipePosition);
         setActionIconTranslation(swipePosition);
         mLastSwipePosition = swipePosition;
     }
@@ -130,19 +123,26 @@ public class GoalListViewRow extends FrameLayout {
         mForegroundView.setTranslationX(translationX);
     }
 
-    public void resetForegroundTranslation() {
+    public void resetForegroundTranslation(boolean animated) {
+        if (mBackgroundView == null) return;
         mBackgroundView.setBackgroundColor(mBackgroundColourInactive);
-        mIvActionIcon.animate()
-                .translationX(0)
-                .setDuration(mAnimationDuration)
-                .setListener(null);
-        mForegroundView.animate()
-                .translationX(0)
-                .setDuration(mAnimationDuration)
-                .setListener(null);
+
+        if (animated) {
+            mIvActionIcon.animate()
+                    .translationX(0)
+                    .setDuration(mAnimationDuration)
+                    .setListener(null);
+            mForegroundView.animate()
+                    .translationX(0)
+                    .setDuration(mAnimationDuration)
+                    .setListener(null);
+        } else {
+            mIvActionIcon.setTranslationX(0);
+            mForegroundView.setTranslationX(0);
+        }
     }
 
-    private void setAction(float translationX) {
+    private void setActionForPosition(float translationX) {
         if (translationX < mFirstActionThreshold) {
             mBackgroundView.setBackgroundColor(mBackgroundColourInactive);
             mIvActionIcon.setImageDrawable(mActionIcons[0]);
@@ -160,6 +160,31 @@ public class GoalListViewRow extends FrameLayout {
             float deltaX = translationX - mIvActionIcon.getRight();
             mIvActionIcon.setTranslationX(deltaX);
         }
+    }
+
+    private void triggerActionWithAnimation() {
+        mIvActionIcon.animate()
+                .translationX(getWidth())
+                .setDuration(mActionTriggerAnimationDuration);
+        mForegroundView.animate()
+                .translationX(getWidth())
+                .setDuration(mActionTriggerAnimationDuration)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                         if (mActionTriggeredListener != null) {
+                             if (mLastSwipePosition < mSecondActionThreshold) {
+                                 mActionTriggeredListener.onActionTriggered(mActionTypes[0]); }
+                             else {
+                                 mActionTriggeredListener.onActionTriggered(mActionTypes[1]);
+                             }
+                         }
+                    }
+
+                    public void onAnimationStart(Animator animation) { }
+                    public void onAnimationCancel(Animator animation) { }
+                    public void onAnimationRepeat(Animator animation) { }
+                });
     }
 
 }
