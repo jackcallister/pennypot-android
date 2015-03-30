@@ -35,4 +35,7 @@
     <dimen name="goal_list_progress_bar_height">6dp</dimen>
     <dimen name="goal_list_row_action_icon_size">32dp</dimen>
     <dimen name="goal_list_row_action_icon_padding">14dp</dimen>
+
+    <!-- Goal Edit -->
+    <dimen name="edit_goal_balance_text">60dp</dimen>
 </resources>

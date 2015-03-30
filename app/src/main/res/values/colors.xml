@@ -2,6 +2,14 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="primary_blue">#2196F3</color>
+
+    <color name="pp_grey_light">#E0E0E0</color>
+    <color name="pp_grey_dark">#4C4C4C</color>
+    <color name="pp_grey_background">#ECECEC</color>
+    <color name="pp_purple">#6A7CAB</color>
+    <color name="pp_red">#FA5B5E</color>
+    <color name="pp_blue">#3F51B5</color>
 
     <color name="progress_bar_0">#D50000</color>
     <color name="progress_bar_10">#D84315</color>
@@ -14,14 +22,11 @@
     <color name="progress_bar_80">#8BC34A</color>
     <color name="progress_bar_90">#4CAF50</color>
 
-    <color name="pp_grey_light">#E0E0E0</color>
-    <color name="pp_grey_dark">#4C4C4C</color>
-    <color name="pp_grey_background">#ECECEC</color>
-    <color name="pp_purple">#6A7CAB</color>
-    <color name="pp_red">#FA5B5E</color>
-    <color name="pp_blue">#3F51B5</color>
-
     <color name="goal_list_row_background_inactive">#DFDFDF</color>
 
-    <color name="primary_blue">#2196F3</color>
+    <color name="edit_goal_gradient_dark">#796B8C</color>
+    <color name="edit_goal_gradient_light">#007AFF</color>
+
+    <color name="edit_goal_gradient_center_dark">#727194</color>
+    <color name="edit_goal_gradient_center_light">#217BE1</color>
 </resources>

@@ -9,5 +9,6 @@
     <string name="new_goal_name_error">You\'ll need to enter a name</string>
     <string name="new_goal_target_error">Go on, set a target to save to</string>
     <string name="goal_delete_error">@string/new_goal_save_error</string>
+    <string name="title_activity_edit_goal">EditGoalActivity</string>
 
 </resources>

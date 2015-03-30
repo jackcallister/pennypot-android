@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -146,7 +147,8 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
 
     @Override
     public void editGoal(Goal goal) {
-        //TODO
+        Intent intent = new Intent(this, EditGoalActivity.class);
+        startActivity(intent);
     }
 
     private void showNewGoalForm() {
@@ -186,14 +188,9 @@ public class HomeActivity extends Activity implements GoalsListAdapter.GoalActio
                 mNewGoalFormVisible = false;
             }
 
-            public void onAnimationStart(Animator animation) {
-            }
-
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation) { }
+            public void onAnimationCancel(Animator animation) { }
+            public void onAnimationRepeat(Animator animation) { }
         });
         anim.start();
     }
