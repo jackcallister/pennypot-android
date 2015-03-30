@@ -1,6 +1,9 @@
 package co.pennypot.app.models;
 
-public class Goal {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Goal implements Parcelable {
 
     private String name;
 
@@ -54,4 +57,37 @@ public class Goal {
         this.target = target;
     }
 
+    /** Parcelable Implementation */
+
+    private Goal(Parcel in) {
+        this.setId(in.readInt());
+        this.setName(in.readString());
+        this.setBalance(in.readInt());
+        this.setTarget(in.readInt());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeInt(balance);
+        dest.writeInt(target);
+    }
+
+    public static final Parcelable.Creator<Goal> CREATOR = new Parcelable.Creator<Goal>() {
+        @Override
+        public Goal createFromParcel(Parcel source) {
+            return new Goal(source);
+        }
+
+        @Override
+        public Goal[] newArray(int size) {
+            return new Goal[size];
+        }
+    };
 }

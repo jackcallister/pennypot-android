@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">Pennypot</string>
+
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_done">Done</string>
+
     <string name="new_goal_name_hint">I want a:</string>
     <string name="new_goal_target_hint">It costs: $</string>
     <string name="btn_new_goal_form_add">Add</string>
@@ -9,6 +13,8 @@
     <string name="new_goal_name_error">You\'ll need to enter a name</string>
     <string name="new_goal_target_error">Go on, set a target to save to</string>
     <string name="goal_delete_error">@string/new_goal_save_error</string>
+    <string name="goal_save_error">@string/new_goal_save_error</string>
+
     <string name="title_activity_edit_goal">EditGoalActivity</string>
 
 </resources>

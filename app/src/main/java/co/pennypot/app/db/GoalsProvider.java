@@ -51,10 +51,15 @@ public class GoalsProvider {
             values.put(GoalsTable.KEY_BALANCE, goal.getBalance());
             values.put(GoalsTable.KEY_TARGET, goal.getTarget());
 
-            int id = (int) mDatabase.insert(GoalsTable.TABLE_NAME, null, values);
-            if (id > 0) {
-                goal.setId(id);
-                return true;
+            if (goal.getId() > 0) {
+                int result = mDatabase.update(GoalsTable.TABLE_NAME, values, "id = ?", new String[] { String.valueOf(goal.getId()) });
+                return result == 1;
+            } else {
+                int id = (int) mDatabase.insert(GoalsTable.TABLE_NAME, null, values);
+                if (id > 0) {
+                    goal.setId(id);
+                    return true;
+                }
             }
         }
 

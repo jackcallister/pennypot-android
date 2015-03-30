@@ -21,7 +21,7 @@
         <activity
             android:name=".EditGoalActivity"
             android:label="@string/title_activity_edit_goal"
-            android:theme="@style/AppTheme.ActionBarOverlay">
+            android:theme="@style/AppTheme.TranslucentStatusBar">
         </activity>
     </application>
 

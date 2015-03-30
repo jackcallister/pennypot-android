@@ -1,15 +1,9 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
-    <style name="AppTheme.ActionBarOverlay" parent="AppTheme">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionBarStyle">@style/OverlayActionBar</item>
-    </style>
-
-    <style name="OverlayActionBar" parent="android:style/Widget.Holo.ActionBar">
-        <item name="android:displayOptions"></item>
-        <item name="android:background">@null</item>
+    <style name="AppTheme.TranslucentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>

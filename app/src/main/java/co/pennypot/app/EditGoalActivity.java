@@ -1,13 +1,13 @@
 package co.pennypot.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +15,8 @@ import co.pennypot.app.models.Goal;
 
 
 public class EditGoalActivity extends Activity {
+
+    public static final String KEY_RESULT_AMOUNT = "co.pennypot.app.EditGoalActivity.result_amount";
 
     private static final int MAX_DEPOSIT_AMOUNT = 1000;
 
@@ -39,16 +41,8 @@ public class EditGoalActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_goal);
-        ViewConfiguration.get(this).getScaledMinimumFlingVelocity();
 
-        initGoal();
         initUI();
-
-        setDepositAmount(0);
-        setBackgroundForAmount();
-    }
-
-    private void initGoal() {
     }
 
     private void initUI() {
@@ -67,6 +61,9 @@ public class EditGoalActivity extends Activity {
         int gradientLight = getResources().getColor(R.color.edit_goal_gradient_light);
         Color.colorToHSV(gradientDark, mGradientDarkHSV);
         Color.colorToHSV(gradientLight, mGradientLightHSV);
+
+        setDepositAmount(0);
+        setBackgroundForAmount();
     }
 
     private void setDepositAmount(int depositAmount) {
@@ -122,11 +119,17 @@ public class EditGoalActivity extends Activity {
 
             return super.onScroll(e1, e2, distanceX, distanceY);
         }
+    }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return super.onFling(e1, e2, velocityX, velocityY);
-        }
+    public void onCancelPressed(View v) {
+        finish();
+    }
+
+    public void onDonePressed(View v) {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_RESULT_AMOUNT, mDepositAmount);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }
